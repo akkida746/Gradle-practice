@@ -42,7 +42,9 @@ tasks.create('testPrint2'){
 	println "Test print 2 executed!"
 }
 
-/*References: https://lowcarbrob.medium.com/android-pro-tip-generating-your-apps-changelog-from-git-inside-build-gradle-19a07533eec4*/
+/* References:
+   https://lowcarbrob.medium.com/android-pro-tip-generating-your-apps-changelog-from-git-inside-build-gradle-19a07533eec4
+*  https://hadaly.fr/posts/jetbrains-changelog-for-your-release/ */
 tasks.create("Generating Changelog"){
 	def gitLogCmd = "git log --oneline --no-merges --pretty=format:\"%s\"".execute().text.trim()
 	gitLogCmd.eachLine { line -> println(line)}
