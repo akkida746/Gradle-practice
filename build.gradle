@@ -34,3 +34,13 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+// These are manual task created that will be executed at first during 'gradle clean build'
+task testPrint1{
+	println "Test print 1 executed!"
+}
+tasks.create('testPrint2'){
+	println "Test print 2 executed!"
+}
+
+
+
