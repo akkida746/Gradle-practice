@@ -42,21 +42,18 @@ tasks.create('testPrint2'){
 	println "Test print 2 executed!"
 }
 
-//tasks.register("prepareChangelog") {
-//	dependsOn("patchChangelog")
-//	doLast {
-//		exec {
-//			commandLine("git", "commit", "--amend", "-a", "--no-edit")
-//		}
-//		exec {
-//			commandLine("git", "tag", "$version", "-f", "HEAD")
-//		}
-//	}
-//}
-
 /*References: https://lowcarbrob.medium.com/android-pro-tip-generating-your-apps-changelog-from-git-inside-build-gradle-19a07533eec4*/
 tasks.create("Generating Changelog"){
 	def gitLogCmd = "git log --oneline --no-merges --pretty=format:\"%s\"".execute().text.trim()
 	gitLogCmd.eachLine { line -> println(line)}
 }
+
+abstract class CustomTask extends DefaultTask{
+	private final String msg
+	@Inject
+	CustomTask(String msg){
+		this.msg = msg
+	}
+}
+tasks.register('customtask', CustomTask,'Hello Custom Task!')
 
