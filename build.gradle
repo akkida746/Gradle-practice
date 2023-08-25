@@ -2,7 +2,46 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.1.3'
 	id 'io.spring.dependency-management' version '1.1.3'
-	id 'me.champeau.jmh' version '0.6.6'
+	id "me.champeau.jmh" version "0.7.1"
+}
+
+apply plugin: 'org.jetbrains.changelog'
+
+intellij {
+	// ...
+
+	patchPluginXml {
+		changeNotes = provider {
+			changelog.renderItem(
+					changelog
+							.getUnreleased()
+							.withHeader(false)
+							.withEmptySections(false),
+					Changelog.OutputType.HTML
+			)
+		}
+	}
+}
+
+changelog {
+	version = "1.0.0"
+	path = file("CHANGELOG.md").canonicalPath
+	header = "[${-> version.get()}] - ${ExtensionsKt.date("yyyy-MM-dd")}"
+	headerParserRegex = ~/(\d+\.\d+)/
+	introduction = """
+        My awesome project that provides a lot of useful features, like:
+        
+        - Feature 1
+        - Feature 2
+        - and Feature 3
+    """.stripIndent()
+	itemPrefix = "-"
+	keepUnreleasedSection = true
+	unreleasedTerm = "[Unreleased]"
+	groups = ["Added", "Changed", "Deprecated", "Removed", "Fixed", "Security"]
+	lineSeparator = "\n"
+	combinePreReleases = true
+	sectionUrlBuilder = { repositoryUrl, currentVersion, previousVersion, isUnreleased -> "foo" } as ChangelogSectionUrlBuilder
 }
 
 group = 'com.example'
